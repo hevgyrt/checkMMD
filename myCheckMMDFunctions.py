@@ -49,10 +49,18 @@ def containString(keywords, validKeywords):
 
 def validDateFormat(date):
     """ Function to check if date has valid format after ISO 8601 standard
+        NOTE: valid_formats should be extended if need for other formats
     """
-    try:
-        datetime.datetime.strptime(date,"%Y-%m-%d")
-        return True
-    except ValueError:
-        print "The date format does not follow ISO 8601 standard, thus invalid."
-        return False
+    valid_formats = ["%Y-%m-%d","%Y-%m-%dT%H","%Y-%m-%dT%H:%M",
+                    "%Y-%m-%dT%H:%M:%S","%Y-%m-%dT%H:%M:%S.%fZ",
+                    "%Y-%m-%dT%H:%M:%S.%f"]
+    for f in valid_formats:
+        try:
+            if datetime.datetime.strptime(date,f):
+                return True
+        except:
+            pass
+
+    print str("Does you input data: %s \nfollow ISO 8601 standard?" %date +
+              "\nIf YES, please edit the validDateFormat function in myCheckMMDFunctions.")
+    return False
